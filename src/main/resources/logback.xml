@@ -1,0 +1,25 @@
+<configuration scan="true" scanPeriod="1 minute">
+
+    <property name="LOG_DIR_REMOTE" value="C:\\logback-test"/>
+
+    <appender name="LOGBACK_TEST" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR_REMOTE}/db-audit2.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR_REMOTE}/db-audit2.log.%d{yyyy-MM-dd-HH-mm}.%i.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="com.bobrowski.logbackdemo.appender.MySizeAndTimeBasedFNATP">
+                <maxFileSize>1MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{YYYY-MM-dd-HH-mm-ss};%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="org.springframework" level="info"/>
+    <logger name="com.bobrowski" level="debug"/>
+
+    <logger name="com.bobrowski.logbackdemo.controller.LogController" level="INFO" additivity="false">
+        <appender-ref ref="LOGBACK_TEST" />
+    </logger>
+
+</configuration>
